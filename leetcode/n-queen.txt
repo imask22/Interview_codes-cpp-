@@ -1,0 +1,148 @@
+//n-queen-accepted
+
+class Solution {
+public:
+    vector<vector<string> >f;
+    bool noerror(vector<string>&board,int i,int j,int n)
+    {
+        
+        //left to right
+        for(int k=0;k<n;++k)
+        {
+            if(j==k)
+                continue;
+            if(board[i][k]=='Q')
+            {
+                return false;
+            }
+        }
+        
+        //updown
+        for(int k=0;k<n;++k)
+        {
+            if(i==k)
+                continue;
+            if(board[k][j]=='Q')
+            {
+                return false;
+            }
+        }
+        int i1=i-1,j1=j+1;
+        while(i1>=0 && j1<n)
+        {
+            if(board[i1][j1]=='Q')
+            {
+                return false;
+            }
+            i1--;
+            j1++;
+                
+        }
+        
+        i1=i-1,j1=j-1;
+        while(i1>=0 && j1>=0)
+        {
+            if(board[i1][j1]=='Q')
+            {
+                return false;
+            }
+            i1--;
+            j1--;
+                
+        }
+        
+        
+        i1=i+1,j1=j+1;
+        while(i1<n && j1<n)
+        {
+            if(board[i1][j1]=='Q')
+            {
+                return false;
+            }
+            i1++;
+            j1++;
+                
+        }
+        
+        
+        i1=i+1,j1=j-1;
+        while(i1<n && j1>=0)
+        {
+            if(board[i1][j1]=='Q')
+            {
+                return false;
+            }
+            i1++;
+            j1--;
+                
+        }
+        return true;
+    }
+    
+    
+    
+    bool dfs(vector<string> &board,int i,int j,int n,int qp)
+    {
+        if(j>=n && qp==n)
+        {
+            vector<string>v;
+    for(int i=0;i<n;++i)
+    {
+        string ask="";
+        for(int j=0;j<n;++j)
+        {
+            ask.push_back(board[i][j]);
+        }
+        v.push_back(ask);
+        
+        }
+    
+        f.push_back(v);
+        return true;
+        }
+        if(j>=n)
+        {
+            return false;
+        }
+        
+        for(;i<n;++i)
+        {
+            board[i][j]='Q';
+            if(noerror(board,i,j,n))
+            {
+                dfs(board,0,j+1,n,qp+1);
+            }
+            board[i][j]='.';
+        }
+        
+        return false;
+        
+    }
+    
+    
+    
+    
+    
+    vector<vector<string>> solveNQueens(int n) {
+        
+     
+    string ask1="";
+    for(int k=0;k<n;++k)
+    {
+        ask1.push_back('.');
+    }
+    vector<string>v;
+    for(int i=0;i<n;++i)
+    {
+        
+        v.push_back(ask1);
+        
+    }
+    f.clear();
+        // ask="";
+     dfs(v,0,0,n,0);
+        
+      return f;  
+        
+    }
+};

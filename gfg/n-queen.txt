@@ -1,0 +1,184 @@
+//gfg nqueen
+#include<bits/stdc++.h>
+using namespace std;
+
+int flag=0;
+vector<string>f;
+bool noerror(vector<string>&board,int i,int j,int n)
+    {
+        
+        //left to right
+        for(int k=0;k<n;++k)
+        {
+            if(j==k)
+                continue;
+            if(board[i][k]=='Q')
+            {
+                return false;
+            }
+        }
+        
+        //updown
+        for(int k=0;k<n;++k)
+        {
+            if(i==k)
+                continue;
+            if(board[k][j]=='Q')
+            {
+                return false;
+            }
+        }
+        int i1=i-1,j1=j+1;
+        while(i1>=0 && j1<n)
+        {
+            if(board[i1][j1]=='Q')
+            {
+                return false;
+            }
+            i1--;
+            j1++;
+                
+        }
+        
+        i1=i-1,j1=j-1;
+        while(i1>=0 && j1>=0)
+        {
+            if(board[i1][j1]=='Q')
+            {
+                return false;
+            }
+            i1--;
+            j1--;
+                
+        }
+        
+        
+        i1=i+1,j1=j+1;
+        while(i1<n && j1<n)
+        {
+            if(board[i1][j1]=='Q')
+            {
+                return false;
+            }
+            i1++;
+            j1++;
+                
+        }
+        
+        
+        i1=i+1,j1=j-1;
+        while(i1<n && j1>=0)
+        {
+            if(board[i1][j1]=='Q')
+            {
+                return false;
+            }
+            i1++;
+            j1--;
+                
+        }
+        return true;
+    }
+
+bool dfs(vector<string> &board,int i,int j,int n,int qp)
+    {
+        if(i>=n && qp==n)
+        {
+            string ask;
+            flag=1;
+            ask.push_back('[');
+            // cout<<"[";
+    for(int i=0;i<n;++i)
+    {
+        // cout<<" ";
+        // ask.push_back(' ');
+        for(int j=0;j<n;++j)
+        {
+            if(board[i][j]=='Q')
+            {
+                // cout<<j+1;
+                string p = to_string(j+1);
+                ask+=p;
+                break;
+            }
+        }
+        ask.push_back(' ');
+        // cout<<" ";
+    }
+    string h = "] ";
+    ask+=h;
+    // cout<<"] ";
+    f.push_back(ask);
+            return true;
+        }
+        if(j>=n)
+        {
+            return false;
+        }
+        
+        for(;j<n;++j)
+        {
+            board[i][j]='Q';
+            if(noerror(board,i,j,n))
+            {
+                dfs(board,i+1,0,n,qp+1);
+            }
+            board[i][j]='.';
+        }
+        
+        return false;
+        
+    }
+
+
+bool solveNQueens(int n) {
+        
+    vector<vector<string>> board;
+    string ask="";
+    for(int k=0;k<n;++k)
+    {
+        ask.push_back('.');
+    }
+    vector<string>v;
+    for(int i=0;i<n;++i)
+    {
+        
+        v.push_back(ask);
+        
+    }
+     dfs(v,0,0,n,0);
+    
+    
+    return true;
+}
+
+
+int main()
+ {
+
+    int q;
+    cin>>q;
+    while(q--)
+    {
+        int n;
+        cin>>n;
+        flag=0;
+        f.clear();
+        solveNQueens(n);
+        if(f.size()!=0)
+        {
+            // sort(f.begin(),f.end());
+            for(int i=0;i<f.size();++i)
+            {
+                cout<<f[i];
+            }
+        }
+        else
+        {
+            cout<<"-1";
+        }
+        cout<<endl;
+        
+	}
+	return 0;
+}
